@@ -70,7 +70,7 @@
       <classpath refid="runtime.classpath" />
       <classpath refid="test.classpath" />
       <test name="${test.class}" todir="${test.report.dir}" />
-      <formatter type="plain" extension=".txt" />
+      <formatter type="xml" extension=".xml" />
     </junit>
   </target>
 
