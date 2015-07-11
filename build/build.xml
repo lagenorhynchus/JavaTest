@@ -86,7 +86,8 @@
 
     <copy file="${start.script}" todir="${assemble.dir}/bin" />
     <copy todir="${assemble.dir}/lib">
-      <fileset dir="${lib.dir}/runtime" includes="**/*.jar" />
+      <fileset dir="${lib.dir}/commons-lang3-3.4" includes="**/*.jar" />
+      <fileset dir="${lib.dir}/commons-collections4-4.0" includes="**/*.jar" />
       <fileset file="${work.dir}/${jar.name}" />
     </copy>
 
