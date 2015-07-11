@@ -5,9 +5,9 @@
   <property name="assemble.dir"    location="${work.dir}/assemble" />
   <property name="src.dir"         location="../src" />
   <property name="test.src.dir"    location="../test" />
-  <property name="lib.dir"         location="../../lib" />
+  <property name="lib.dir"         location="../lib" />
   <property name="scripts.dir"     location="../scripts" />
-  <property name="start.script"    location="${scripts.dir}/execute.bat" />
+  <!-- <property name="start.script"    location="${scripts.dir}/execute.bat" /> -->
   <property name="test.report.dir" location="${work.dir}/test-report" />
 
   <property name="src.encoding" value="utf-8" />
@@ -74,13 +74,13 @@
     </junit>
   </target>
 
-  <target name="jar" depends="test" description="ソースコードをコンパイルしてjarファイルに固める">
+  <!-- <target name="jar" depends="test" description="ソースコードをコンパイルしてjarファイルに固める">
     <jar destfile="${work.dir}/${jar.name}"
          basedir="${classes.dir}"
          excludes="**/*Test.class" />
-  </target>
+  </target> -->
 
-  <target name="build" depends="jar" description="プロジェクトをビルドして配布可能なzipファイルを生成">
+  <!-- <target name="build" depends="jar" description="プロジェクトをビルドして配布可能なzipファイルを生成">
     <mkdir dir="${assemble.dir}/lib" />
     <mkdir dir="${assemble.dir}/bin" />
 
@@ -92,5 +92,5 @@
 
     <zip destfile="${work.dir}/${zip.name}"
          basedir="${assemble.dir}" />
-  </target>
+  </target> -->
 </project>
