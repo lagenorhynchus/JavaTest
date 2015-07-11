@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project basedir=".">
+  <property name="work.dir"        location="work" />
+  <property name="classes.dir"     location="${work.dir}/classes" />
+  <property name="assemble.dir"    location="${work.dir}/assemble" />
+  <property name="src.dir"         location="../src" />
+  <property name="test.src.dir"    location="../test" />
+  <property name="lib.dir"         location="../../lib" />
+  <property name="scripts.dir"     location="../scripts" />
+  <property name="start.script"    location="${scripts.dir}/execute.bat" />
+  <property name="test.report.dir" location="${work.dir}/test-report" />
+
+  <property name="src.encoding" value="utf-8" />
+  <property name="main.class"   value="com.github.lagenorhynchus.javatest.FizzBuzz" />
+  <property name="test.class"   value="com.github.lagenorhynchus.javatest.FizzBuzzTest" />
+  <property name="jar.name"     value="fizz-buzz-test.jar" />
+  <property name="zip.name"     value="fizz-buzz-test.zip" />
+
+  <path id="runtime.classpath">
+    <fileset dir="${lib.dir}">
+      <include name="commons-lang3-3.4/*.jar" />
+      <include name="commons-collections4-4.0/*.jar" />
+    </fileset>
+  </path>
+
+  <path id="test.classpath">
+    <fileset dir="${lib.dir}">
+      <include name="junit-4.12/*.jar" />
+      <include name="hamcrest-core-1.3/*.jar" />
+    </fileset>
+  </path>
+
+  <target name="clean" description="Antタスクで生成されたすべてのファイルを削除">
+    <delete dir="${work.dir}" />
+    <delete>
+      <fileset dir="." includes="TEST*" />
+    </delete>
+  </target>
+
+  <target name="compile" description="ソースコードをコンパイルしてclassファイルを生成">
+    <mkdir dir="${classes.dir}" />
+
+    <javac srcdir="${src.dir}"
+           destdir="${classes.dir}"
+           encoding="${src.encoding}"
+           classpathref="runtime.classpath" />
+  </target>
+
+  <target name="compile-test" depends="compile" description="テストコードをコンパイルしてclassファイルを生成">
+    <mkdir dir="${classes.dir}" />
+
+    <javac srcdir="${test.src.dir}"
+           destdir="${classes.dir}"
+           encoding="${src.encoding}"
+           classpathref="test.classpath" />
+  </target>
+
+  <target name="exec" depends="compile" description="コンパイルしたアプリケーションを実行">
+    <java classname="${main.class}"
+          classpath="${classes.dir}"
+          classpathref="runtime.classpath">
+    </java>
+  </target>
+
+  <target name="test" depends="compile-test" description="JUnitのテストを実行">
+    <mkdir dir="${test.report.dir}" />
+
+    <junit>
+      <classpath location="${classes.dir}" />
+      <classpath refid="runtime.classpath" />
+      <classpath refid="test.classpath" />
+      <test name="${test.class}" todir="${test.report.dir}" />
+      <formatter type="plain" extension=".txt" />
+    </junit>
+  </target>
+
+  <target name="jar" depends="test" description="ソースコードをコンパイルしてjarファイルに固める">
+    <jar destfile="${work.dir}/${jar.name}"
+         basedir="${classes.dir}"
+         excludes="**/*Test.class" />
+  </target>
+
+  <target name="build" depends="jar" description="プロジェクトをビルドして配布可能なzipファイルを生成">
+    <mkdir dir="${assemble.dir}/lib" />
+    <mkdir dir="${assemble.dir}/bin" />
+
+    <copy file="${start.script}" todir="${assemble.dir}/bin" />
+    <copy todir="${assemble.dir}/lib">
+      <fileset dir="${lib.dir}/runtime" includes="**/*.jar" />
+      <fileset file="${work.dir}/${jar.name}" />
+    </copy>
+
+    <zip destfile="${work.dir}/${zip.name}"
+         basedir="${assemble.dir}" />
+  </target>
+</project>

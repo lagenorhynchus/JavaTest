@@ -18,4 +18,10 @@ public class FizzBuzz {
       return String.valueOf(n);
     }
   }
+
+  public static void main(final String[] args) {
+    for (int n = 1; n <= 30; n++) {
+      System.out.println(FizzBuzz.fizzBuzz(n));
+    }
+  }
 }
