@@ -1,3 +1,3 @@
 # JavaTest
 
-TDD/BDDとCIの実験用プロジェクト。
+An experimental Java project for TDD/BDD & CI.
